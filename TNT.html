@@ -44,13 +44,15 @@ function download(rows){if(!rows.length)return;var a=document.createElement('a')
 window.TNT={DATA:DATA,REQ:REQ,KEY:KEY,num:num,csv:csv,fmtD:fmtD,cfg:function(){return CFG},cfgSet:cfgSet,ok:ok,load:load,add:add,readFiles:readFiles,download:download,toCsv:toCsv,parseText:parseText,merge:merge};
 })();
 </script><script>if(typeof TNT=='undefined'||typeof Chart=='undefined'){var m=document.getElementById('msg');m.style.color='#c0392b';m.textContent=(typeof TNT=='undefined'?'The data code failed to start. ':'')+(typeof Chart=='undefined'?'The chart library could not be loaded: check your internet connection. ':'')}</script><script>
+(function(){
+
 
 var S=[],OPS=[],num=TNT.num;
 function draw(){OPS.forEach(function(f){f()})}
 function op(f){OPS.push(f)}
 function median(a){if(!a.length)return 0;a=a.slice().sort(function(x,y){return x-y});var h=a.length>>1;return a.length%2?a[h]:(a[h-1]+a[h])/2}
 function sumk(a,k){return a.reduce(function(s,r){return s+num(r[k])},0)}
-function top(a,fn,n){var m={};a.forEach(function(x){var k=fn(x);m[k]=(m[k]||0)+1});return Object.keys(m).map(function(k){return[k,m[k]]}).sort(function(x,y){return y[1]-x[1]}).slice(0,n)}
+function topN(a,fn,n){var m={};a.forEach(function(x){var k=fn(x);m[k]=(m[k]||0)+1});return Object.keys(m).map(function(k){return[k,m[k]]}).sort(function(x,y){return y[1]-x[1]}).slice(0,n)}
 function tc(s){return String(s).toLowerCase().replace(/\b[a-z]/g,function(c){return c.toUpperCase()})}
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function pd(v){if(v instanceof Date)return isNaN(v)?null:v;var s=String(v).trim(),m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);return m?new Date(+m[1],+m[2]-1,+m[3]):null}
@@ -70,7 +72,7 @@ op(function(){dn('c1',sk,sk.map(function(s){return by[s].n}),sk.map(function(s,i
 op(function(){hb('c2',ak.map(function(s){return by[s].n<5?s+' ('+by[s].n+')':s}),ak.map(function(s){return by[s].t/by[s].n}),ak.map(function(s){return by[s].t/by[s].n>avg*1.5?T.c1:T.c0}),'Average cost ($)',true)});
 S.push({t:'tbl',x:'State summary',r:[['State','Shipments','Avg cost','Avg kg','Total spend']].concat(sk.map(function(s){var o=by[s];return[s,o.n.toLocaleString(),fm(o.t/o.n,2),(o.k/o.n).toFixed(1),fm(o.t)]}),[['<b>Total</b>','<b>'+n.toLocaleString()+'</b>','<b>'+fm(avg,2)+'</b>','<b>'+(kg/n).toFixed(1)+'</b>','<b>'+fm(spend)+'</b>']])});
 var E=[5,10,20,30,50,1e9],wl=['0–5 kg','5–10 kg','10–20 kg','20–30 kg','30–50 kg','50+ kg'],wv=[0,0,0,0,0,0];sh.forEach(function(r){var w=num(r['Billed Weight']);for(var i=0;i<6;i++)if(w<=E[i]){wv[i]++;break}});
-var dp=top(sh,function(r){return String(r['Destination']).trim()||'?'},8),pcs=top(sh,function(r){return String(parseInt(r['Receiver Postcode'])).padStart(4,'0')},10),cty=top(sh,function(r){return tc(String(r['Receiver City']).trim())},10);
+var dp=topN(sh,function(r){return String(r['Destination']).trim()||'?'},8),pcs=topN(sh,function(r){return String(parseInt(r['Receiver Postcode'])).padStart(4,'0')},10),cty=topN(sh,function(r){return tc(String(r['Receiver City']).trim())},10);
 S.push({t:'grid',c:[{x:'Shipments by billed weight band',id:'c3',h:240,a:'Column chart of weight bands'},{x:'Top destination depots',id:'c4',h:240,a:'Column chart of depots'}]});
 S.push({t:'grid',c:[{x:'Top 10 destination postcodes',id:'c5',h:300,a:'Bar chart of top postcodes'},{x:'Top 10 destination cities',id:'c8',h:300,a:'Bar chart of top cities'}]});
 op(function(){col('c3',wl,wv,T.c0,'Shipments')});op(function(){col('c4',dp.map(function(x){return x[0]}),dp.map(function(x){return x[1]}),T.c0,'Shipments')});
@@ -86,7 +88,7 @@ var ag=sumk(ad,'GST'),aT=sumk(ad,'Total Amount');
 S.push({t:'tiles',i:[['Debit adjustments',na.toLocaleString()],['Total incl. GST',fm(aT,2)],['Share of spend',pc(adjT,all)],['Average',fm(na?aT/na:0,2)],['Per shipment',(na/n).toFixed(2)],['No-trading rows',nt.length+' ($0)']]});
 S.push({t:'strip',x:'Spend split: shipments vs adjustments',id:'b4'},{t:'strip',x:'Adjustment charge: ex-GST vs GST ('+fm(aT,2)+')',id:'b5'});
 op(function(){strip('b4',[['Shipments '+fm(spend),spend,T.c0],['Adjustments '+fm(adjT),adjT,T.c1]])});op(function(){strip('b5',[['Charge ex-GST '+fm(aT-ag,2),aT-ag,T.c1],['GST '+fm(ag,2),ag,T.c3]])});
-var am=top(ad,function(r){return num(r['Total Amount']).toFixed(2)},8),inv={};ad.forEach(function(r){var k=r['Invoice Number'],o=inv[k]||(inv[k]={n:0,w:r['Week']});o.n++});
+var am=topN(ad,function(r){return num(r['Total Amount']).toFixed(2)},8),inv={};ad.forEach(function(r){var k=r['Invoice Number'],o=inv[k]||(inv[k]={n:0,w:r['Week']});o.n++});
 var ik=Object.keys(inv).sort(function(a,b){return inv[b].n-inv[a].n}).slice(0,8),amn=am.reduce(function(s,x){return s+x[1]},0);
 S.push({t:'grid',c:[{x:'Most common adjustment amounts (count)',id:'c6',h:250,a:'Column chart of adjustment amounts'},{x:'Invoices with the most adjustments',id:'c7',h:250,a:'Bar chart of invoice weeks'}]});
 op(function(){col('c6',am.map(function(x){return'$'+x[0]}).concat(['Other']),am.map(function(x){return x[1]}).concat([na-amn]),T.c1,'Count')});
@@ -110,4 +112,6 @@ function boot(){tok();C.forEach(function(c){c.destroy()});C=[];draw()}
 function show(rows){OPS=[];S=[];if(!rows.length){render();boot();$('sub').textContent='No data yet';return}build(rows);render();boot()}
 render();boot();matchMedia('(prefers-color-scheme: dark)').addEventListener('change',boot);
 TNT.load().then(function(o){show(o.rows);if(o.err)msg('Showing the built-in sample data because '+o.err+'. Add data on the upload page to replace it.')});
+
+})();
 </script></body></html>
