@@ -45,6 +45,8 @@ function download(rows){if(!rows.length)return;var a=document.createElement('a')
 window.TNT={DATA:DATA,REQ:REQ,KEY:KEY,num:num,csv:csv,fmtD:fmtD,cfg:function(){return CFG},cfgSet:cfgSet,ok:ok,load:load,add:add,readFiles:readFiles,download:download,toCsv:toCsv,parseText:parseText,merge:merge};
 })();
 </script><script>if(typeof TNT=='undefined'||typeof XLSX=='undefined'){var m=document.getElementById('msg');m.style.color='#c0392b';m.textContent=(typeof TNT=='undefined'?'The data code failed to start. ':'')+(typeof XLSX=='undefined'?'The Excel reader could not be loaded: check your internet connection (CSV files still work). ':'')}</script><script>
+(function(){
+
 var MEM=[];
 function $(i){return document.getElementById(i)}
 function fm(v,d){return '$'+Number(v).toLocaleString('en-AU',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})}
@@ -70,4 +72,6 @@ $('g_save').addEventListener('click',function(){TNT.cfgSet({owner:$('g_owner').v
 $('g_off').addEventListener('click',function(){TNT.cfgSet({});cfgFill();stat();init()});
 function init(){msg('Loading saved data…');TNT.load().then(function(o){MEM=o.rows;panel();msg(o.err?'No saved data found ('+o.err+'). Showing the built-in sample rows; your first upload creates '+TNT.DATA+'.':'')})}
 cfgFill();stat();init();
+
+})();
 </script></body></html>
