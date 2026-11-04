@@ -366,8 +366,7 @@
             function(a,b){
               return a+b},0);$(id+'L').innerHTML=lb.map(
             function(l,i){
-              return '<span>
-                <i class="sw" style="background:'+cl[i]+'"></i>'+l+' '+(v[i]/t*100).toFixed(1)+'%</span>'}).join('');mk(id,{type:'doughnut',data:{labels:lb,datasets:[{data:v,backgroundColor:cl,borderColor:T.bg,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:
+              return '<span><i class="sw" style="background:'+cl[i]+'"></i>'+l+' '+(v[i]/t*100).toFixed(1)+'%</span>'}).join('');mk(id,{type:'doughnut',data:{labels:lb,datasets:[{data:v,backgroundColor:cl,borderColor:T.bg,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:
               function(c){
                 return c.label+': '+(money?fm(c.parsed):c.parsed.toLocaleString())}}}}}})}
           function strip(id,it){
