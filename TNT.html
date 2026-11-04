@@ -197,37 +197,150 @@
         
         <script>
           var S=[
-            {t:'tiles',i:[['Shipments','1,462'],['Shipment spend','$160,886'],['All-in spend','$166,801'],['Avg cost','$110.05'],['All-in per shipment','$114.09'],['Avg billed weight','16.7 kg'],['Cost per billed kg','$6.61']]},
-            {t:'note',x:'Reconciled to the original file: 1,816 rows = 1,462 shipments + 353 debit adjustments + 1 no-trading row. $166,801.07 = $160,886.37 shipments + $5,914.70 adjustments. Difference: $0.00. All amounts include GST.'},
-            {t:'grid',c:[{x:'Share of shipments by state',l:1,id:'c1',h:240,a:'Donut chart of shipments by state: NSW 52%, VIC 25%, QLD 11%, WA 5%, ACT 3%, SA 3%, TAS 1%, NT 0.1%'},{x:'Average cost per shipment (incl. GST)',s:'NT is a single shipment: Rapid Creek (0810) via the DWN depot, 20 kg billed.',id:'c2',h:300,a:'Bar chart of average cost by state, NT $234.74 and WA $212.54 highest, ACT $78.90 lowest'}]},
-            {t:'tbl',x:'State summary',r:[['State','Shipments','Avg cost','Avg kg','Total spend'],['NSW','759','$101.35','17.3','$76,927'],['VIC','364','$105.40','14.7','$38,365'],['QLD','157','$117.50','17.0','$18,447'],['WA','73','$212.54','20.3','$15,516'],['ACT','48','$78.90','13.0','$3,787'],['SA','44','$123.22','17.3','$5,422'],['TAS','16','$136.79','18.9','$2,189'],['NT','1','$234.74','20.0','$235'],['<b>Total</b>','<b>1,462</b>','<b>$110.05</b>','<b>16.7</b>','<b>$160,886</b>']]},
-            {t:'grid',c:[{x:'Shipments by billed weight band',id:'c3',h:240,a:'Column chart of weight bands, 10 to 20 kg highest with 482'},{x:'Top destination depots',id:'c4',h:240,a:'Column chart of depots led by SYD with 483'}]},
-            {t:'grid',c:[{x:'Top 10 destination postcodes',id:'c5',h:300,a:'Bar chart of top postcodes led by 2630 with 17'},{x:'Top 10 destination cities',id:'c8',h:300,a:'Bar chart of top cities'}]},
-            {t:'strip',x:'Where the money goes (avg per shipment, $110.05)',id:'b1'},{t:'strip',x:'How shipments were billed',id:'b2'},{t:'strip',x:'Pieces per consignment',id:'b3'},
-            {t:'st',x:'Debit adjustments and no-trading'},
-            {t:'tiles',i:[['Debit adjustments','353'],['Total incl. GST','$5,914.70'],['Share of spend','3.5%'],['Average','$16.76'],['Per shipment','0.24'],['No-trading rows','1 ($0)']]},
-            {t:'strip',x:'Spend split: shipments vs adjustments',id:'b4'},{t:'strip',x:'Adjustment charge: ex-GST vs GST ($5,914.70)',id:'b5'},
-            {t:'grid',c:[{x:'Most common adjustment amounts (count)',id:'c6',h:250,a:'Column chart of adjustment amounts, $18.15 most common with 142'},{x:'Invoices with the most adjustments',id:'c7',h:250,a:'Bar chart of invoice weeks, week 3 highest with 57'}]},
-            {t:'note',x:'Adjustments appear on 43 of the weekly invoices. $18.15 and $7.15 account for 73% of them (flat charges of $16.50 and $6.50 plus GST). State is derived from receiver postcodes.'}
+            {t:'tiles',i:[
+              ['Shipments','1,462'],
+              ['Shipment spend','$160,886'],
+              ['All-in spend','$166,801'],
+              ['Avg cost','$110.05'],
+              ['All-in per shipment','$114.09'],
+              ['Avg billed weight','16.7 kg'],
+              ['Cost per billed kg','$6.61']]},
+            
+            {t:'note',
+             x:'Reconciled to the original file: 1,816 rows = 1,462 shipments + 353 debit adjustments + 1 no-trading row. $166,801.07 = $160,886.37 shipments + $5,914.70 adjustments. Difference: $0.00. All amounts include GST.'},
+            
+            {t:'grid',c:[{
+              x:'Share of shipments by state',l:1,
+              id:'c1',
+              h:240,
+              a:'Donut chart of shipments by state: NSW 52%, VIC 25%, QLD 11%, WA 5%, ACT 3%, SA 3%, TAS 1%, NT 0.1%'},{
+              x:'Average cost per shipment (incl. GST)',
+              s:'NT is a single shipment: Rapid Creek (0810) via the DWN depot, 20 kg billed.',
+              id:'c2',
+              h:300,
+              a:'Bar chart of average cost by state, NT $234.74 and WA $212.54 highest, ACT $78.90 lowest'}]},
+            
+            {t:'tbl',
+             x:'State summary',
+             r:[
+               ['State','Shipments','Avg cost','Avg kg','Total spend'],
+               ['NSW','759','$101.35','17.3','$76,927'],
+               ['VIC','364','$105.40','14.7','$38,365'],
+               ['QLD','157','$117.50','17.0','$18,447'],
+               ['WA','73','$212.54','20.3','$15,516'],
+               ['ACT','48','$78.90','13.0','$3,787'],
+               ['SA','44','$123.22','17.3','$5,422'],
+               ['TAS','16','$136.79','18.9','$2,189'],
+               ['NT','1','$234.74','20.0','$235'],
+               ['<b>Total</b>','<b>1,462</b>','<b>$110.05</b>','<b>16.7</b>','<b>$160,886</b>']]},
+            
+            {t:'grid',c:[{
+              x:'Shipments by billed weight band',
+              id:'c3',
+              h:240,
+              a:'Column chart of weight bands, 10 to 20 kg highest with 482'},{
+              x:'Top destination depots',
+              id:'c4',
+              h:240,
+              a:'Column chart of depots led by SYD with 483'}]},
+            
+            {t:'grid',c:[{
+              x:'Top 10 destination postcodes',
+              id:'c5',
+              h:300,
+              a:'Bar chart of top postcodes led by 2630 with 17'},{
+              x:'Top 10 destination cities',
+              id:'c8',
+              h:300,
+              a:'Bar chart of top cities'}]},
+            
+            {t:'strip',
+             x:'Where the money goes (avg per shipment, $110.05)',
+             id:'b1'},{
+              t:'strip',
+              x:'How shipments were billed',
+              id:'b2'},{
+              t:'strip',
+              x:'Pieces per consignment',
+              id:'b3'},
+            
+            {t:'st',
+             x:'Debit adjustments and no-trading'},
+            
+            {t:'tiles',
+             i:[
+              ['Debit adjustments','353'],
+              ['Total incl. GST','$5,914.70'],
+              ['Share of spend','3.5%'],
+              ['Average','$16.76'],
+              ['Per shipment','0.24'],
+              ['No-trading rows','1 ($0)']]},
+            
+            {t:'strip',
+             x:'Spend split: shipments vs adjustments',
+             id:'b4'},{
+              t:'strip',
+              x:'Adjustment charge: ex-GST vs GST ($5,914.70)',
+              id:'b5'},
+            
+            {t:'grid',c:[{
+              x:'Most common adjustment amounts (count)',
+              id:'c6',
+              h:250,
+              a:'Column chart of adjustment amounts, $18.15 most common with 142'},{
+              x:'Invoices with the most adjustments',
+              id:'c7',
+              h:250,
+              a:'Bar chart of invoice weeks, week 3 highest with 57'}]},
+            
+            {t:'note',
+             x:'Adjustments appear on 43 of the weekly invoices. $18.15 and $7.15 account for 73% of them (flat charges of $16.50 and $6.50 plus GST). State is derived from receiver postcodes.'}
           ];
           
           function draw(){
             var P=[T.c0,T.c1,T.c2,T.c3,T.c4,T.c5,T.c6,T.c7];
-            var sl=['NSW','VIC','QLD','WA','ACT','SA','TAS','NT'];dn('c1',sl,[759,364,157,73,48,44,16,1],P.slice(0,8));
-            var cl=['NT (1 shipment)','WA','TAS','SA','QLD','VIC','NSW','ACT'];hb('c2',cl,[234.74,212.54,136.79,123.22,117.5,105.4,101.35,78.9],cl.map(
+            var sl=['NSW','VIC','QLD','WA','ACT','SA','TAS','NT'];
+            dn('c1',sl,[759,364,157,73,48,44,16,1],P.slice(0,8));
+            var cl=['NT (1 shipment)','WA','TAS','SA','QLD','VIC','NSW','ACT'];
+            hb('c2',cl,[234.74,212.54,136.79,123.22,117.5,105.4,101.35,78.9],cl.map(
               function(l){
                 return(l=='WA'||l.indexOf('NT')==0)?T.c1:T.c0}),'Average cost ($)',true);        
-            col('c3',['0–5 kg','5–10 kg','10–20 kg','20–30 kg','30–50 kg','50+ kg'],[242,307,482,316,74,41],T.c0,'Shipments');         
-            col('c4',['SYD','MEL','BNE','CBA','PTH','WNG','VC2','OOL'],[483,250,79,74,57,56,46,45],T.c0,'Shipments');          
-            hb('c5',['2630','2026','3741','2229','2074','3142','3723','2230','2101','3068'],[17,13,12,11,11,11,11,9,9,9],T.c0,'Shipments');           
-            hb('c8',['Cooma','Toorak','Newport','Glen Iris','Manly','Bright','Castle Hill','Mosman','South Yarra','Mount Buller'],[17,11,10,9,8,8,7,7,7,7],T.c2,'Shipments');           
-            strip('b1',[['Freight $81.47',81.47,T.c0],['Surcharge $13.22',13.22,T.c1],['Warranty $5.35',5.35,T.c2],['GST $10.01',10.01,T.c3]]);      
-            strip('b2',[['Volume-based 1,125',1125,T.c0],['Actual weight 337',337,T.c1]]);          
-            strip('b3',[['1 piece 1,153',1153,T.c0],['2 pieces 296',296,T.c1],['3–4 pieces 13',13,T.c2]]);          
-            strip('b4',[['Shipments $160,886',160886.37,T.c0],['Adjustments $5,915',5914.7,T.c1]]);         
-            strip('b5',[['Charge ex-GST $5,377.00',5377,T.c1],['GST $537.70',537.7,T.c3]]);           
-            col('c6',['$18.15','$7.15','$26.95','$19.80','$7.70','$36.30','$28.60','$69.30','Other'],[142,116,26,24,17,10,5,4,9],T.c1,'Count');
-            hb('c7',['Week 3','Week 55','Week 27','Week 28','Week 1','Week 5','Week 53','Week 58'],[57,32,26,22,12,12,11,11],T.c1,'Adjustments');}
+            col('c3',
+                ['0–5 kg','5–10 kg','10–20 kg','20–30 kg','30–50 kg','50+ kg'],
+                [242,307,482,316,74,41],T.c0,'Shipments');         
+            col('c4',
+                ['SYD','MEL','BNE','CBA','PTH','WNG','VC2','OOL'],
+                [483,250,79,74,57,56,46,45],T.c0,'Shipments');          
+            hb('c5',
+               ['2630','2026','3741','2229','2074','3142','3723','2230','2101','3068'],
+               [17,13,12,11,11,11,11,9,9,9],T.c0,'Shipments');           
+            hb('c8',
+               ['Cooma','Toorak','Newport','Glen Iris','Manly','Bright','Castle Hill','Mosman','South Yarra','Mount Buller'],
+               [17,11,10,9,8,8,7,7,7,7],T.c2,'Shipments');           
+            strip('b1',[
+              ['Freight $81.47',81.47,T.c0],
+              ['Surcharge $13.22',13.22,T.c1],
+              ['Warranty $5.35',5.35,T.c2],
+              ['GST $10.01',10.01,T.c3]]);      
+            strip('b2',[
+              ['Volume-based 1,125',1125,T.c0],
+              ['Actual weight 337',337,T.c1]]);          
+            strip('b3',[
+              ['1 piece 1,153',1153,T.c0],
+              ['2 pieces 296',296,T.c1],
+              ['3–4 pieces 13',13,T.c2]]);          
+            strip('b4',[
+              ['Shipments $160,886',160886.37,T.c0],
+              ['Adjustments $5,915',5914.7,T.c1]]);         
+            strip('b5',[
+              ['Charge ex-GST $5,377.00',5377,T.c1],
+              ['GST $537.70',537.7,T.c3]]);           
+            col('c6',
+                ['$18.15','$7.15','$26.95','$19.80','$7.70','$36.30','$28.60','$69.30','Other'],
+                [142,116,26,24,17,10,5,4,9],T.c1,'Count');
+            hb('c7',
+               ['Week 3','Week 55','Week 27','Week 28','Week 1','Week 5','Week 53','Week 58'],
+               [57,32,26,22,12,12,11,11],T.c1,'Adjustments');}
           var C=[],T={};
           function $(i){
             return document.getElementById(i)}
