@@ -341,34 +341,123 @@
             hb('c7',
                ['Week 3','Week 55','Week 27','Week 28','Week 1','Week 5','Week 53','Week 58'],
                [57,32,26,22,12,12,11,11],T.c1,'Adjustments');}
+          
           var C=[],T={};
+          
           function $(i){
             return document.getElementById(i)}
+          
           function fm(v,d){
             return '$'+Number(v).toLocaleString('en-AU',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})}
+          
           function tok(){
-            var s=getComputedStyle(document.documentElement);['bg','tx','mut','grid','surf','bd','c0','c1','c2','c3','c4','c5','c6','c7'].forEach(
-              function(k){T[k]=s.getPropertyValue('--'+k).trim()});Chart.defaults.font.size=12;Chart.defaults.color=T.mut}
+            var s=getComputedStyle(document.documentElement);
+            ['bg','tx','mut','grid','surf','bd','c0','c1','c2','c3','c4','c5','c6','c7']
+              .forEach(
+                function(k){T[k]=s.getPropertyValue('--'+k).trim()});
+            Chart.defaults.font.size=12;
+            Chart.defaults.color=T.mut}
+          
           function mk(id,cfg){C.push(new Chart($(id),cfg))}
-          function col(id,lb,d,cl,yt,money,tip){mk(id,{type:'bar',data:{labels:lb,datasets:[{data:d,backgroundColor:cl,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:
-            function(c){
-              return tip?tip(c):(money?fm(c.parsed.y,2):c.parsed.y)}}}},scales:{y:{grid:{color:T.grid},title:{display:true,text:yt},ticks:{callback:
+          
+          function col(id,lb,d,cl,yt,money,tip){mk(id,{
+            type:'bar',
+            data:{
+              labels:lb,
+              datasets:[{
+                data:d,
+                backgroundColor:cl,
+                borderRadius:3}]},
+            options:{
+              responsive:true,
+              maintainAspectRatio:false,
+              plugins:{
+                legend:{
+                  display:false},
+                tooltip:{
+                  callbacks:{
+                    label:
+                      function(c){
+                        return tip?tip(c):(money?fm(c.parsed.y,2):c.parsed.y)}}}},
+              scales:{
+                y:{
+                  grid:{
+                    color:T.grid},
+                  title:{
+                    display:true,
+                    text:yt},
+                  ticks:{callback:
             function(v){
-              return money?fm(v):v}}},x:{grid:{display:false},ticks:{maxRotation:60,autoSkip:false}}}}})}
-          function hb(id,lb,d,cl,xt,money){mk(id,{type:'bar',data:{labels:lb,datasets:[{data:d,backgroundColor:cl,borderRadius:3,barThickness:18}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:
-            function(c){
-              return money?fm(c.parsed.x,2):c.parsed.x}}}},scales:{x:{grid:{color:T.grid},title:{display:true,text:xt},ticks:{callback:
-            function(v){
-              return money?fm(v):v}}},y:{grid:{display:false}}}}})}
+              return money?fm(v):v}}},
+                x:{
+                  grid:{
+                    display:false},
+                  ticks:{maxRotation:60,
+                         autoSkip:false}}}}})}
+          
+          function hb(id,lb,d,cl,xt,money){mk(id,{
+            type:'bar',
+            data:{
+              labels:lb,
+              datasets:[{
+                data:d,
+                backgroundColor:cl,
+                borderRadius:3,
+                barThickness:18}]},
+            options:{
+              indexAxis:'y',
+              responsive:true,
+              maintainAspectRatio:false,
+              plugins:{
+                legend:{
+                  display:false},
+                tooltip:{
+                  callbacks:{label:
+                    function(c){
+                      return money?fm(c.parsed.x,2):c.parsed.x}}}},
+              scales:{
+                x:{
+                  grid:{
+                    color:T.grid},
+                  title:{
+                    display:
+                      true,
+                    text:xt},
+                  ticks:{
+                    callback:
+                      function(v){
+                        return money?fm(v):v}}},
+                y:{
+                  grid:{
+                    display:false}}}}})}
 
           function dn(id,lb,v,cl,money){
             var t=v.reduce(
             function(a,b){
               return a+b},0);$(id+'L').innerHTML=lb.map(
             function(l,i){
-              return '<span><i class="sw" style="background:'+cl[i]+'"></i>'+l+' '+(v[i]/t*100).toFixed(1)+'%</span>'}).join('');mk(id,{type:'doughnut',data:{labels:lb,datasets:[{data:v,backgroundColor:cl,borderColor:T.bg,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:
-              function(c){
-                return c.label+': '+(money?fm(c.parsed):c.parsed.toLocaleString())}}}}}})}
+              return '<span><i class="sw" style="background:'+cl[i]+'"></i>'+l+' '+(v[i]/t*100).toFixed(1)+'%</span>'}).join('');
+            mk(id,{
+              type:'doughnut',
+              data:{
+                labels:lb,
+                datasets:[{
+                  data:v,
+                  backgroundColor:cl,
+                  borderColor:T.bg,
+                  borderWidth:2}]},
+              options:{
+                responsive:true,
+                maintainAspectRatio:false,
+                cutout:'60%',
+                plugins:{
+                  legend:{
+                    display:false},
+                  tooltip:{
+                    callbacks:{
+                      label:
+                        function(c){
+                          return c.label+': '+(money?fm(c.parsed):c.parsed.toLocaleString())}}}}}})}
           function strip(id,it){
             var t=it.reduce(
             function(a,b){
